@@ -1,0 +1,97 @@
+\documentclass[12pt, a4paper, portrait]{article}
+
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    left=1mm,
+    paperheight=1900px
+}
+\begin{document}
+
+    \begin{table}
+        \begin{tabular}{|c|*{6}{c}|*{6}{c}|*{6}{c}|}
+            \hline
+            metrics & \multicolumn{6}{|c|}{RMSD} & \multicolumn{6}{|c|}{Centroid distance} &
+            \multicolumn{6}{|c|}{Count} \\
+            \hline
+
+            Docking regime & \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} &
+            \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} &
+            \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} \\
+            \hline
+
+            Enzyme class & A & B & C & A & B & C &      
+            A & B & C & A & B & C &
+            A & B & C & A & B & C \\
+            AlphaFold3&\textbf{8.56}&\textbf{11.76}&8.01&10.07&10.60&6.28&\textbf{5.34}&\textbf{8.92}&3.99&6.93&7.64&2.35 &65&60&61&67&55&61\\ 
+            EquiBind&14.51&17.37&12.21&14.47&17.23&11.82&13.07&16.00&10.57&13.09&15.87&10.18 &69&70&67&69&70&67\\ 
+            TankBind&12.95&15.79&10.57&13.09&15.89&8.94&11.08&13.70&7.81&11.25&13.80&6.18 &67&62&66&69&61&66\\ 
+            DiffDock&11.86&12.42&\textbf{6.87}&11.67&12.79&8.06&8.89&10.04&\textbf{2.99}&8.75&10.45&4.29 &56&45&47&57&45&47\\ 
+            NeuralPLexer&12.42&16.32&9.75&11.38&15.49&9.37&9.72&14.32&5.97&9.59&13.69&6.80 &35&40&36&37&35&41\\ 
+            DynamicBind&9.76&14.45&10.39&10.39&14.03&8.92&6.70&11.92&6.55&7.26&11.42&5.11 &58&58&55&59&59&56\\ 
+            DPL&15.69&17.51&14.45&16.06&16.82&14.73&14.37&16.50&13.10&14.77&15.76&13.43 &47&51&58&46&48&55\\ 
+            \hline
+            Vina&14.01&17.83&11.93&\textbf{5.28}&\textbf{5.33}&\textbf{5.40}&12.03&16.00&8.84&\textbf{1.84}&\textbf{2.27}&\textbf{1.65} &67&64&63&64&61&63\\ 
+            \hline
+
+        \end{tabular}
+    \end{table}
+
+    \begin{table}
+        \begin{tabular}{|c|*{6}{c}|*{6}{c}|}
+            \hline
+            metrics & 
+            \multicolumn{6}{|c|}{Bonds (\textbf{higher} the better)} & \multicolumn{6}{|c|}{Angles (\textbf{higher} the better)} \\
+            \hline
+
+            Docking regime & 
+            \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} &
+            \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} \\
+            \hline
+
+            Enzyme class & A & B & C & A & B & C &      
+            A & B & C & A & B & C \\
+            \hline
+
+            AlphaFold3&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}\\ 
+            EquiBind&1.00&0.99&0.99&1.00&0.99&0.99&1.00&1.00&1.00&1.00&1.00&1.00\\ 
+            TankBind&1.00&0.98&0.98&1.00&0.98&0.98&0.97&1.00&0.97&0.97&0.98&0.97\\ 
+            DiffDock&1.00&1.00&1.00&1.00&1.00&1.00&1.00&1.00&1.00&1.00&1.00&1.00\\ 
+            NeuralPLexer&1.00&0.98&0.94&0.95&1.00&0.98&0.97&1.00&1.00&0.97&1.00&0.98\\ 
+            DynamicBind&1.00&1.00&1.00&1.00&1.00&1.00&1.00&1.00&0.95&0.97&0.98&0.98\\ 
+            DPL&0.83&0.75&0.81&0.83&0.73&0.82&0.96&0.94&0.91&0.93&0.94&0.91\\ 
+            \hline
+            Vina&1.00&0.98&0.98&1.00&0.98&0.98&0.99&1.00&1.00&1.00&1.00&1.00\\ 
+            \hline
+
+        \end{tabular}
+    \end{table}
+
+    \begin{table}
+        \begin{tabular}{|c|*{6}{c}|}
+            \hline
+            metrics & 
+            \multicolumn{6}{|c|}{Min dist to protein (\textbf{higher} the better)} \\
+            \hline
+
+            Docking regime & 
+            \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} \\
+            \hline
+
+            Enzyme class & A & B & C & A & B & C \\
+            \hline
+            AlphaFold3&0.58&0.58&0.43&0.60&0.56&0.46\\ 
+            EquiBind&0.01&0.04&0.00&0.01&0.04&0.00\\ 
+            TankBind&0.15&0.21&0.15&0.12&0.21&0.15\\ 
+            DiffDock&0.32&0.47&0.23&0.39&0.36&0.26\\ 
+            NeuralPLexer&0.09&0.22&0.08&0.05&0.06&0.02\\ 
+            DynamicBind&0.41&0.43&0.35&0.44&0.46&0.36\\ 
+            DPL&0.09&0.04&0.00&0.11&0.02&0.00\\ 
+            \hline
+            Vina&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}&\textbf{1.00}\\ 
+            \hline
+
+        \end{tabular}
+    \end{table}
+
+\end{document}
