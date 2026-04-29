@@ -343,7 +343,7 @@ def get_dynamicbind_bust_inputs(output_path, rec_path, trimmed_rec_path):
         names, list(range(n)), [tool_name]*n
 
 def get_tankbind_bust_inputs(output_path, rec_path, trimmed_rec_path):
-    outputs = torch.load(output_path)
+    outputs = torch.load(output_path, weights_only=False)
     names = []
     true_files = []
     pred_files = []

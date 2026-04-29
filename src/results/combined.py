@@ -25,13 +25,13 @@ if __name__ == "__main__":
     dpl_data = "../../databases/DPL/outputs/*"
     dpl_buster_root = "../../databases/DPL/buster_inputs"
     dpl_failed_data = "../../databases/DPL/failed_outputs"
-    align_dpl_outputs(dpl_data, dpl_failed_data) 
+    # align_dpl_outputs(dpl_data, dpl_failed_data) 
     dpl_buster_inputs = get_dpl_bust_inputs(dpl_data, rec_path, trimmed_rec_path, dpl_buster_root)
 
-    diffdock_data = "/home/daniil/Desktop/Ph.D/DiffDock/results/user_inference/*"
+    diffdock_data = "../../databases/DiffDock/results/user_inference/*"
     diffdock_buster_inputs = get_diffdock_bust_inputs(diffdock_data, rec_path, trimmed_rec_path)
 
-    equibind_data = "/home/daniil/Desktop/Ph.D/EquiBind/data/results/output/"
+    equibind_data = "../../databases/EquiBind/output/"
     equibind_buster_inputs = get_equibind_bust_inputs(equibind_data, rec_path, trimmed_rec_path)
 
     neuralplexer_data = "../../databases/NeuralPLexer/inferences/*"
