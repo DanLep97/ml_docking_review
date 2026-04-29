@@ -22,4 +22,11 @@ The quick replication doesn't require to install all Vina and ML-based docking t
 ### Database
 The database include complexes computed by different docking tools as well as a minimalist version of Q-BioLiP pre-processed dataset.
 
-#### Download
+#### 1. Download
+Download the [zip file](https://tubcloud.tu-berlin.de/s/KF9i7qEwEaGx6gS) and extract the content into database folder.
+
+#### 2. Compute metrics
+Run `src/results/combine.py`
+
+#### 4. Explore results
+Follow jupyter notebook in `src/results/viz.ipynb`
