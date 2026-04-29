@@ -28,5 +28,5 @@ Download the [zip file](https://tubcloud.tu-berlin.de/s/KF9i7qEwEaGx6gS) and ext
 #### 2. Compute metrics
 Run `src/results/combine.py`
 
-#### 4. Explore results
+#### 4. Explore metrics
 Follow jupyter notebook in `src/results/viz.ipynb`
