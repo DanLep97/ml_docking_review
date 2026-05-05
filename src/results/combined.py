@@ -25,7 +25,7 @@ if __name__ == "__main__":
     dpl_data = "../../databases/DPL/outputs/*"
     dpl_buster_root = "../../databases/DPL/buster_inputs"
     dpl_failed_data = "../../databases/DPL/failed_outputs"
-    # align_dpl_outputs(dpl_data, dpl_failed_data) 
+    align_dpl_outputs(dpl_data, dpl_failed_data) 
     dpl_buster_inputs = get_dpl_bust_inputs(dpl_data, rec_path, trimmed_rec_path, dpl_buster_root)
 
     diffdock_data = "../../databases/DiffDock/results/user_inference/*"
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     tankbind_data = "../../databases/TankBind/outputs/outputs.pth"
     tankbind_buster_inputs = get_tankbind_bust_inputs(tankbind_data, rec_path, trimmed_rec_path)
 
-    dynamicbind_data = "/home/daniil/Desktop/Ph.D/DynamicBind/results/*/*"
+    dynamicbind_data = "../../databases/DynamicBind/results/*/*"
     dynamicbind_buster_inputs = get_dynamicbind_bust_inputs(dynamicbind_data, rec_path, trimmed_rec_path)
     
     # get the buster and outputs for AF3:
