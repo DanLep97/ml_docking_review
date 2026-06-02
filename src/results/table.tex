@@ -9,30 +9,66 @@
 \begin{document}
 
     \begin{table}
-        \begin{tabular}{|c|*{6}{c}|*{6}{c}|*{6}{c}|}
+        \begin{tabular}{|c|*{6}{c}|}
             \hline
-            metrics & \multicolumn{6}{|c|}{RMSD} & \multicolumn{6}{|c|}{Centroid distance} &
-            \multicolumn{6}{|c|}{Count} \\
-            \hline
-
-            Docking regime & \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} &
-            \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} &
-            \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} \\
+            metrics & \multicolumn{6}{|c|}{RMSD} \\
             \hline
 
-            Enzyme class & A & B & C & A & B & C &      
-            A & B & C & A & B & C &
-            A & B & C & A & B & C \\
-            AlphaFold3&\textbf{8.56}&\textbf{11.76}&8.01&10.07&10.60&6.28&\textbf{5.34}&\textbf{8.92}&3.99&6.93&7.64&2.35 &65&60&61&67&55&61\\ 
-            EquiBind&14.51&17.37&12.21&14.47&17.23&11.82&13.07&16.00&10.57&13.09&15.87&10.18 &69&70&67&69&70&67\\ 
-            TankBind&12.95&15.79&10.57&13.09&15.89&8.94&11.08&13.70&7.81&11.25&13.80&6.18 &67&62&66&69&61&66\\ 
-            DiffDock&11.86&12.42&\textbf{6.87}&11.67&12.79&8.06&8.89&10.04&\textbf{2.99}&8.75&10.45&4.29 &56&45&47&57&45&47\\ 
-            NeuralPLexer&12.42&16.32&9.75&11.38&15.49&9.37&9.72&14.32&5.97&9.59&13.69&6.80 &35&40&36&37&35&41\\ 
-            DynamicBind&9.76&14.45&10.39&10.39&14.03&8.92&6.70&11.92&6.55&7.26&11.42&5.11 &58&58&55&59&59&56\\ 
-            DPL&15.69&17.51&14.45&16.06&16.82&14.73&14.37&16.50&13.10&14.77&15.76&13.43 &47&51&58&46&48&55\\ 
+            Docking regime & \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} \\
             \hline
-            Vina&14.01&17.83&11.93&\textbf{5.28}&\textbf{5.33}&\textbf{5.40}&12.03&16.00&8.84&\textbf{1.84}&\textbf{2.27}&\textbf{1.65} &67&64&63&64&61&63\\ 
+
+            Enzyme class & A & B & C & A & B & C \\
+            AlphaFold3&\textbf{8.61}$\pm$ 8.972&\textbf{12.14}$\pm$ 12.788&8.01$\pm$ 16.175&10.12$\pm$ 12.368&10.44$\pm$ 11.027&6.33$\pm$ 4.663\\ 
+            EquiBind&14.51$\pm$ 9.989&17.37$\pm$ 12.209&12.21$\pm$ 8.606&14.47$\pm$ 10.074&17.23$\pm$ 12.170&11.82$\pm$ 6.810\\ 
+            TankBind&12.95$\pm$ 12.626&15.79$\pm$ 13.958&10.57$\pm$ 17.194&13.09$\pm$ 12.526&15.89$\pm$ 13.904&8.94$\pm$ 8.080\\ 
+            DiffDock&11.86$\pm$ 11.950&12.42$\pm$ 12.075&\textbf{6.87}$\pm$ 6.521&11.67$\pm$ 12.161&12.79$\pm$ 12.287&8.06$\pm$ 9.028\\ 
+            NeuralPLexer&12.42$\pm$ 12.545&16.32$\pm$ 15.539&9.75$\pm$ 18.838&11.38$\pm$ 11.691&15.49$\pm$ 14.457&9.37$\pm$ 18.007\\ 
+            DynamicBind&9.76$\pm$ 10.825&14.45$\pm$ 13.098&10.39$\pm$ 23.605&10.39$\pm$ 12.916&14.03$\pm$ 12.595&8.92$\pm$ 17.914\\ 
+            DPL&16.73$\pm$ 11.612&17.51$\pm$ 7.767&14.45$\pm$ 7.623&16.06$\pm$ 9.236&16.82$\pm$ 7.441&14.73$\pm$ 7.723\\ 
+            Vina&14.01$\pm$ 12.708&17.83$\pm$ 13.456&11.93$\pm$ 16.941&\textbf{5.28}$\pm$ 2.284&\textbf{5.33}$\pm$ 2.203&\textbf{5.40}$\pm$ 1.895\\
+
+        \end{tabular}
+    \end{table}
+    \begin{table}
+        \begin{tabular}{|c|*{6}{c}|}
             \hline
+            metrics & \multicolumn{6}{|c|}{Centroid distance} \\
+            \hline
+
+            Docking regime & \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} \\
+            \hline
+
+            Enzyme class & A & B & C & A & B & C \\
+            AlphaFold3&\textbf{5.29}$\pm$ 10.095&\textbf{9.22}$\pm$ 14.211&4.00$\pm$ 16.768&6.89$\pm$ 13.573&7.31$\pm$ 12.330&2.41$\pm$ 5.343\\ 
+            EquiBind&13.07$\pm$ 10.508&16.00$\pm$ 12.981&10.57$\pm$ 9.103&13.09$\pm$ 10.530&15.87$\pm$ 12.944&10.18$\pm$ 7.313\\ 
+            TankBind&11.08$\pm$ 13.398&13.70$\pm$ 15.233&7.81$\pm$ 17.772&11.25$\pm$ 13.304&13.80$\pm$ 15.186&6.18$\pm$ 8.769\\ 
+            DiffDock&8.89$\pm$ 13.227&10.04$\pm$ 13.293&\textbf{2.99}$\pm$ 7.153&8.75$\pm$ 13.404&10.45$\pm$ 13.570&4.29$\pm$ 9.920\\ 
+            NeuralPLexer&9.72$\pm$ 13.830&14.32$\pm$ 16.835&5.97$\pm$ 19.565&9.59$\pm$ 12.375&13.69$\pm$ 15.585&6.80$\pm$ 18.536\\ 
+            DynamicBind&6.70$\pm$ 11.923&11.92$\pm$ 14.669&6.55$\pm$ 24.390&7.26$\pm$ 14.031&11.42$\pm$ 14.213&5.11$\pm$ 18.627\\ 
+            DPL&15.44$\pm$ 12.195&16.50$\pm$ 8.463&13.10$\pm$ 8.107&14.77$\pm$ 9.856&15.76$\pm$ 8.138&13.43$\pm$ 8.173\\ 
+            Vina&12.03$\pm$ 13.748&16.00$\pm$ 14.788&8.84$\pm$ 17.962&\textbf{1.84}$\pm$ 1.951&\textbf{2.27}$\pm$ 1.853&\textbf{1.65}$\pm$ 1.517\\ 
+
+        \end{tabular}
+    \end{table}
+
+    \begin{table}
+        \begin{tabular}{|c|*{6}{c}}
+            \hline
+            metrics & \multicolumn{6}{|c|}{Count} \\
+            \hline
+
+            Docking regime & \multicolumn{3}{|c|}{TBD} & \multicolumn{3}{|c|}{PBD} \\
+            \hline
+
+            Enzyme class & A & B & C & A & B & C \\
+            AlphaFold3&65&58&61&67&50&60\\ 
+            EquiBind&69&70&67&69&70&67\\ 
+            TankBind&67&62&66&69&61&66\\ 
+            DiffDock&56&45&47&57&45&47\\ 
+            NeuralPLexer&35&40&36&37&35&41\\ 
+            DynamicBind&58&58&55&59&59&56\\ 
+            DPL&48&51&58&46&48&55\\ 
+            Vina&67&64&63&64&61&63\\ 
 
         \end{tabular}
     \end{table}
