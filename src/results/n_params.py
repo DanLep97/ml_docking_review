@@ -9,9 +9,14 @@ diffdock_model_p = [
 neuralplexer_model_p = "/home/daniil/Desktop/Ph.D/NeuralPLexer/models/complex_structure_prediction.ckpt"
 dynamicbind_model_p = "/home/daniil/Desktop/Ph.D/DynamicBind/workdir/big_score_model_sanyueqi_with_time/pro_ema_inference_epoch138_model.pt"
 dpl_model_p = "/home/daniil/Desktop/Ph.D/DiffusionProteinLigand/checkpoints/DPLS_v1.ckpt"
-boltz_model_p = "/home/daniil/"
+boltz_model_p = "../../databases/boltz2/models/boltz2_conf.ckpt"
 
 n_params = []
+boltz_model = torch.load(boltz_model_p)["state_dict"]
+n_params.append({
+    "name": "Boltz-2",
+    "n":sum([p.numel() for p in boltz_model.values()])
+})
 
 equibind_model = torch.load(equibind_model_p)["model_state_dict"]
 n_params.append({
