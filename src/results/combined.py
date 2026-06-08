@@ -6,12 +6,10 @@ if __name__ == "__main__":
     from qbiolip import load_db
     from repo import get_diffdock_bust_inputs, get_equibind_bust_inputs, get_neuralplexer_bust_inputs
     from repo import get_vina_bust_inputs, get_tankbind_bust_inputs, get_dynamicbind_bust_inputs
-    from repo import get_dpl_bust_inputs, get_alphafold_buster_inputs
+    from repo import get_dpl_bust_inputs, get_alphafold_buster_inputs, get_boltz_bust_inputs
     from repo import get_crystal_bust_inputs
     from repo import compute_rmsd
     from repo import align_dpl_outputs
-    import glob
-    import os
     import multiprocessing as mp
     mp.set_start_method("spawn")
     import pandas
@@ -21,6 +19,8 @@ if __name__ == "__main__":
     # get outputs:
     rec_path = "../../databases/QBioLiP/nr_rec"
     trimmed_rec_path = "../../databases/QBioLiP/nr_rec_trimed"
+    boltz_data = "../../databases/boltz2/outputs/predictions/*/*_model_0.pdb"
+    boltz_buster_inputs = get_boltz_bust_inputs(boltz_data, rec_path, trimmed_rec_path)
 
     dpl_data = "../../databases/DPL/outputs/*"
     dpl_buster_root = "../../databases/DPL/buster_inputs"
@@ -62,7 +62,8 @@ if __name__ == "__main__":
         neuralplexer_buster_inputs,
         dynamicbind_buster_inputs,
         dpl_buster_inputs,
-        crystal_bust_inputs
+        crystal_bust_inputs,
+        boltz_buster_inputs
     ]
     with mp.Pool(processes=32) as pool:
         results = []
@@ -92,7 +93,8 @@ if __name__ == "__main__":
             else:
                 all_dfs.append(pandas.DataFrame())
         vina_bust_df, alphafold_bust_df, equibind_bust_df, tankbind_bust_df, \
-        diffdock_bust_df, neuralplexer_bust_df, dynamicbind_bust_df, dpl_bust_df, crystal_df = all_dfs
+        diffdock_bust_df, neuralplexer_bust_df, dynamicbind_bust_df, dpl_bust_df,\
+        crystal_df, boltz_bust_df = all_dfs
     alphafold_rmsd = compute_rmsd(alphafold_buster_inputs)
     equibind_rmsd = compute_rmsd(equibind_buster_inputs)
     tankbind_rmsd = compute_rmsd(tankbind_buster_inputs)
@@ -101,6 +103,7 @@ if __name__ == "__main__":
     dynamicbind_rmsd = compute_rmsd(dynamicbind_buster_inputs)
     dpl_rmsd = compute_rmsd(dpl_buster_inputs)
     vina_rmsd = compute_rmsd(vina_buster_inputs)
+    boltz_rmsd = compute_rmsd(boltz_buster_inputs)
 
     torch.save({
         "bust_df": {
@@ -111,7 +114,8 @@ if __name__ == "__main__":
             "NeuralPLexer": neuralplexer_bust_df,
             "DynamicBind": dynamicbind_bust_df,
             "DPL": dpl_bust_df,
-            "Vina": vina_bust_df
+            "Vina": vina_bust_df,
+            "Boltz-2": boltz_bust_df
         },
         "annex_df": {
             "crystal": crystal_df,
@@ -124,6 +128,7 @@ if __name__ == "__main__":
             "NeuralPLexer": neuralplexer_rmsd,
             "DynamicBind": dynamicbind_rmsd,
             "DPL": dpl_rmsd,
-            "Vina": vina_rmsd
+            "Vina": vina_rmsd,
+            "Boltz-2": boltz_rmsd
         }
     }, "../../databases/results/posebusters_all_df.pt")

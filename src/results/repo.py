@@ -304,6 +304,44 @@ def get_dpl_bust_inputs(output_path, rec_path, trimmed_rec_path, buster_root):
     return true_files, pred_files, cond_files, \
         names, list(range(n)), [tool_name]*n
 
+def get_boltz_bust_inputs(output_path, rec_path, trimmed_rec_path):
+    names = []
+    true_files = []
+    pred_files = []
+    cond_files = []
+    tool_name = "Boltz-2"
+
+    results = glob.glob(output_path)
+    for pdb in results:
+        name = pdb.split("/")[-2] # name of the folder
+        is_trimed = "_trimed" in name
+        assembly_name = name[:6]
+        gt_rec_path = f"{trimmed_rec_path}/{name.replace('_trimed','')}.pdb" if is_trimed\
+            else f"{rec_path}/{assembly_name}.pdb"
+        gt_lig_path = f"../../databases/QBioLiP/nr_lig/{name.replace('_trimed','')}.pdb"
+        complex_aligned = pdb.replace(".pdb", "_aligned.pdb")
+        # align complex to ground truth receptor:
+        align_structures(pdb, gt_lig_path, gt_rec_path, complex_aligned)
+        if not os.path.exists(complex_aligned):
+            continue
+        
+        # get only the ligand atoms:
+        with open(complex_aligned, "r") as complex_f:
+            complex_lines = [l for l in complex_f]
+        substrate_records = [l for l in complex_lines if l[:6].strip() == "HETATM" or l[:6].strip() == "CONECT"]
+        # save substrate:
+        substrate_path = complex_aligned.replace(".pdb", "_substrate.pdb")
+        with open(substrate_path, "w") as substrate_f:
+            substrate_f.write("".join(substrate_records))
+        
+        names.append(name)
+        true_files.append(gt_lig_path)
+        pred_files.append(substrate_path)
+        cond_files.append(gt_rec_path)
+    n = len(names)
+    return true_files, pred_files, cond_files, \
+        names, list(range(n)), [tool_name]*n
+
 def get_dynamicbind_bust_inputs(output_path, rec_path, trimmed_rec_path):
     result_folders = glob.glob(output_path)
     result_folders.sort()

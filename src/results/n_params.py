@@ -9,6 +9,7 @@ diffdock_model_p = [
 neuralplexer_model_p = "/home/daniil/Desktop/Ph.D/NeuralPLexer/models/complex_structure_prediction.ckpt"
 dynamicbind_model_p = "/home/daniil/Desktop/Ph.D/DynamicBind/workdir/big_score_model_sanyueqi_with_time/pro_ema_inference_epoch138_model.pt"
 dpl_model_p = "/home/daniil/Desktop/Ph.D/DiffusionProteinLigand/checkpoints/DPLS_v1.ckpt"
+boltz_model_p = "/home/daniil/"
 
 n_params = []
 
