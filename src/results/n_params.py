@@ -13,6 +13,10 @@ boltz_model_p = "../../databases/boltz2/models/boltz2_conf.ckpt"
 
 n_params = []
 boltz_model = torch.load(boltz_model_p)["state_dict"]
+layer_names = list(boltz_model.keys())
+pb_factors = [l for l in layer_names if "factor" in l]
+print([boltz_model[l].shape for l in pb_factors])
+exit()
 n_params.append({
     "name": "Boltz-2",
     "n":sum([p.numel() for p in boltz_model.values()])
