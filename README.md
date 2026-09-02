@@ -1,7 +1,7 @@
 # Machine Learning Docking Review Code Repository
 This repository contains all necessary scripts and information to install, preprocess a locally downloaded snapshot of Q-BioLiP database.
 
-The following sections explain how to download Q-BioLiP and install different docking tools (Vina and ML-based).
+The following sections explain how to download Q-BioLiP and install different docking tools (Vina and ML-based) and replicate the results from our [pre-print](https://doi.org/10.26434/chemrxiv.15007152/v1).
 
 ## Prerequisite
 ### Conda environement and utilities
@@ -23,7 +23,7 @@ The quick replication doesn't require to install all Vina and ML-based docking t
 The database include complexes computed by different docking tools as well as a minimalist version of Q-BioLiP pre-processed dataset.
 
 #### 1. Download
-Download the [zip file](https://tubcloud.tu-berlin.de/s/3PKK6o56oHFijEP) and extract the content into database folder.
+Download the [zip file](https://tubcloud.tu-berlin.de/s/KF9i7qEwEaGx6gS) and extract the content into database folder.
 
 #### 2. Compute metrics
 Run `src/results/combine.py`
