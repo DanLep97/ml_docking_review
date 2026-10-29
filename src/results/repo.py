@@ -12,6 +12,191 @@ import time
 import shutil
 import signal
 logging.basicConfig(level=logging.ERROR)
+import requests
+from typing import Dict, List, Any
+
+# Common metal ions found in PDB structures (by chemical component ID and element)
+METAL_IONS = {
+    "NA", "K", "MG", "CA", "MN", "FE", "FE2", "ZN", "CU", "CU1",
+    "CO", "NI", "CD", "HG", "PB", "SR", "BA", "CS", "RB", "AL",
+    "MO", "W", "V", "CR", "AG", "AU", "PT", "IR", "OS", "RU",
+    "RH", "PD", "SC", "TI", "ZR", "HF", "NB", "TA", "GA", "IN",
+    "TL", "SN", "AS", "SB", "BI", "TE", "SE", "EU", "GD", "TB",
+    "YB", "LU", "SM", "HO", "ER", "DY", "ND", "PR", "CE", "LA",
+    "U", "TH", "PU", "LI", "BE", "B", "SI", "GE",
+    # Also match by element
+    "IRON", "ZINC", "COPPER", "MAGNESIUM", "CALCIUM", "MANGANESE",
+    "SODIUM", "POTASSIUM", "COBALT", "NICKEL", "CADMIUM",
+}
+
+METAL_ELEMENTS = {
+    "NA", "K", "MG", "CA", "MN", "FE", "ZN", "CU", "CO", "NI",
+    "CD", "HG", "PB", "SR", "BA", "CS", "RB", "AL", "MO", "W",
+    "V", "CR", "AG", "AU", "PT", "IR", "OS", "RU", "RH", "PD",
+    "SC", "TI", "ZR", "HF", "NB", "TA", "GA", "IN", "TL", "SN",
+    "AS", "SB", "BI", "TE", "SE", "EU", "GD", "TB", "YB", "LU",
+    "SM", "HO", "ER", "DY", "ND", "PR", "CE", "LA", "U", "TH",
+    "PU", "LI", "BE", "SI", "GE",
+}
+
+# Mapping from MetalPDB element codes to proper chemical symbols and names
+METAL_ELEMENTS_MAP = {
+    "NA": {"symbol": "Na", "name": "Sodium"},
+    "K":  {"symbol": "K",  "name": "Potassium"},
+    "MG": {"symbol": "Mg", "name": "Magnesium"},
+    "CA": {"symbol": "Ca", "name": "Calcium"},
+    "MN": {"symbol": "Mn", "name": "Manganese"},
+    "FE": {"symbol": "Fe", "name": "Iron"},
+    "ZN": {"symbol": "Zn", "name": "Zinc"},
+    "CU": {"symbol": "Cu", "name": "Copper"},
+    "CO": {"symbol": "Co", "name": "Cobalt"},
+    "NI": {"symbol": "Ni", "name": "Nickel"},
+    "CD": {"symbol": "Cd", "name": "Cadmium"},
+    "HG": {"symbol": "Hg", "name": "Mercury"},
+    "PB": {"symbol": "Pb", "name": "Lead"},
+    "SR": {"symbol": "Sr", "name": "Strontium"},
+    "BA": {"symbol": "Ba", "name": "Barium"},
+    "CS": {"symbol": "Cs", "name": "Cesium"},
+    "RB": {"symbol": "Rb", "name": "Rubidium"},
+    "AL": {"symbol": "Al", "name": "Aluminium"},
+    "MO": {"symbol": "Mo", "name": "Molybdenum"},
+    "W":  {"symbol": "W",  "name": "Tungsten"},
+    "V":  {"symbol": "V",  "name": "Vanadium"},
+    "CR": {"symbol": "Cr", "name": "Chromium"},
+    "AG": {"symbol": "Ag", "name": "Silver"},
+    "AU": {"symbol": "Au", "name": "Gold"},
+    "PT": {"symbol": "Pt", "name": "Platinum"},
+    "IR": {"symbol": "Ir", "name": "Iridium"},
+    "OS": {"symbol": "Os", "name": "Osmium"},
+    "RU": {"symbol": "Ru", "name": "Ruthenium"},
+    "RH": {"symbol": "Rh", "name": "Rhodium"},
+    "PD": {"symbol": "Pd", "name": "Palladium"},
+    "SC": {"symbol": "Sc", "name": "Scandium"},
+    "TI": {"symbol": "Ti", "name": "Titanium"},
+    "ZR": {"symbol": "Zr", "name": "Zirconium"},
+    "HF": {"symbol": "Hf", "name": "Hafnium"},
+    "NB": {"symbol": "Nb", "name": "Niobium"},
+    "TA": {"symbol": "Ta", "name": "Tantalum"},
+    "GA": {"symbol": "Ga", "name": "Gallium"},
+    "IN": {"symbol": "In", "name": "Indium"},
+    "TL": {"symbol": "Tl", "name": "Thallium"},
+    "SN": {"symbol": "Sn", "name": "Tin"},
+    "AS": {"symbol": "As", "name": "Arsenic"},
+    "SB": {"symbol": "Sb", "name": "Antimony"},
+    "BI": {"symbol": "Bi", "name": "Bismuth"},
+    "TE": {"symbol": "Te", "name": "Tellurium"},
+    "SE": {"symbol": "Se", "name": "Selenium"},
+    "EU": {"symbol": "Eu", "name": "Europium"},
+    "GD": {"symbol": "Gd", "name": "Gadolinium"},
+    "TB": {"symbol": "Tb", "name": "Terbium"},
+    "YB": {"symbol": "Yb", "name": "Ytterbium"},
+    "LU": {"symbol": "Lu", "name": "Lutetium"},
+    "SM": {"symbol": "Sm", "name": "Samarium"},
+    "HO": {"symbol": "Ho", "name": "Holmium"},
+    "ER": {"symbol": "Er", "name": "Erbium"},
+    "DY": {"symbol": "Dy", "name": "Dysprosium"},
+    "ND": {"symbol": "Nd", "name": "Neodymium"},
+    "PR": {"symbol": "Pr", "name": "Praseodymium"},
+    "CE": {"symbol": "Ce", "name": "Cerium"},
+    "LA": {"symbol": "La", "name": "Lanthanum"},
+    "U":  {"symbol": "U",  "name": "Uranium"},
+    "TH": {"symbol": "Th", "name": "Thorium"},
+    "PU": {"symbol": "Pu", "name": "Plutonium"},
+    "LI": {"symbol": "Li", "name": "Lithium"},
+    "BE": {"symbol": "Be", "name": "Beryllium"},
+    "SI": {"symbol": "Si", "name": "Silicon"},
+    "GE": {"symbol": "Ge", "name": "Germanium"},
+}
+
+# Also provide a simple symbol-only mapping for quick lookups
+METAL_SYMBOLS = {code: info["symbol"] for code, info in METAL_ELEMENTS_MAP.items()}
+
+aa_3to1 = {
+    'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K',
+    'ILE': 'I', 'PRO': 'P', 'THR': 'T', 'PHE': 'F', 'ASN': 'N', 
+    'GLY': 'G', 'HIS': 'H', 'LEU': 'L', 'ARG': 'R', 'TRP': 'W', 
+    'ALA': 'A', 'VAL':'V', 'GLU': 'E', 'TYR': 'Y', 'MET': 'M',
+    "SEC": "U", "UNK": "X"
+}
+
+def get_metal_info(pdb_id, pdb_metals):
+    pdb_metals = [METAL_ELEMENTS_MAP[p[:2]]["symbol"] for p in pdb_metals]
+    pdb_id = pdb_id.lower()
+    base_url = "http://metalpdb.cerm.unifi.it/api"
+    url = f"{base_url}?query=pdb:{pdb_id}"
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        geometries = []
+        ligands_involved = []
+        for site in data:
+            for metal in site["metals"]:
+                if metal["symbol"] in pdb_metals:
+                    geometry = metal["geometry"] if "n/a" not in metal["geometry"]\
+                        else "n/a"
+                    geometries.append(geometry)
+                    for ligand in metal["ligands"]:
+                        involved = "ligand" if ligand["residue"] not in aa_3to1.keys()\
+                            else "residue"
+                        ligands_involved.append(involved)
+        return geometries, ligands_involved
+    except requests.exceptions.RequestException as e:
+        print("Error when retrieving metal info:", e)
+
+def get_ec_number(pdb_id):
+    """
+    Retrieve EC numbers associated with a PDB ID using RCSB PDB API.
+    
+    Args:
+        pdb_id (str): 4-character PDB ID (e.g., '1abc')
+    
+    Returns:
+        dict: Dictionary mapping entity IDs to their EC numbers
+    """
+    pdb_id = pdb_id.upper()
+    
+    # RCSB PDB GraphQL API endpoint
+    url = "https://data.rcsb.org/graphql"
+    
+    # GraphQL query to fetch EC numbers
+    query = """
+    query ($pdb_id: String!) {
+      entry(entry_id: $pdb_id) {
+        polymer_entities {
+          rcsb_polymer_entity {
+            rcsb_enzyme_class_combined {
+                ec
+            }
+          }
+        }
+      }
+    }
+    """
+    
+    variables = {"pdb_id": pdb_id}
+    
+    response = requests.post(
+        url,
+        json={"query": query, "variables": variables}
+    )
+    
+    if response.status_code != 200:
+        raise Exception(f"API request failed: {response.status_code}")
+    
+    data = response.json()["data"]
+    
+    if "errors" in data:
+        raise Exception(f"GraphQL errors: {data['errors']}")
+    
+    ec_numbers = data["entry"]["polymer_entities"][0]["rcsb_polymer_entity"]["rcsb_enzyme_class_combined"]
+    if ec_numbers is not None:
+        ec_numbers = [e["ec"] for e in ec_numbers]
+    else:
+        ec_numbers = []
+
+    return ec_numbers
 
 def compute_rmsd(data):
     target_paths = data[0]

@@ -1,2 +1,5 @@
 databases
 __pycache__
+src/results/figures
+src/results/tmp_folder
+*.pkl
